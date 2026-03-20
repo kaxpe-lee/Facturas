@@ -1,0 +1,32 @@
+# Checklist Facturas
+
+- [x] Planificación de la aplicación
+  - [x] Revisión del plan de implementación con el usuario
+- [x] Base de Datos y Modelos (usando UUIDs)
+  - [x] Crear migración y modelo para `Client` (Inquilinos y Puntuales)
+  - [x] Crear migración y modelo para `Property` (Inmuebles - incluyendo impuestos por defecto)
+  - [x] Crear migración y modelo para `Invoice` (Facturas - con desglose de impuestos IVA/IRPF)
+  - [x] Crear migración y modelo para `InvoiceItem` (Líneas de Factura)
+- [x] Registro de Inquilinos y Clientes
+  - [x] Crear página y componente Livewire para listar clientes
+  - [x] Crear componente/modal para añadir o editar cliente
+- [x] Registro de Inmuebles
+  - [x] Crear página y componente Livewire para listar inmuebles
+  - [x] Crear componente/modal para añadir o editar inmueble
+- [x] Registro de Facturas
+  - [x] Crear página y componente Livewire para listar facturas
+  - [x] Crear página para nueva factura (seleccionar cliente, inmueble opcional, mes/conceptos e impuestos)
+- [x] Informes y Reportes
+  - [x] Crear página para Informe de Impuestos Trimestral
+- [x] Verificación Final y Walkthrough
+- [x] Exportación a PDF
+  - [x] Instalar librería DomPDF
+  - [x] Crear plantilla de factura imprimible (`pdf.invoice`)
+  - [x] Añadir botón de descarga en el listado de facturas
+- [x] Informes Fiscales Avanzados
+  - [x] Añadir tabla desglosada de facturas bajo el resumen trimestral
+  - [x] Creador de PDF corporativo para reportes trimestrales
+- [x] Configuración Emisor
+  - [x] Crear modelo `Setting`
+  - [x] Página Livewire del perfil fiscal de empresa
+  - [x] Integrar datos de BD en los PDFs fiscales
