@@ -24,10 +24,18 @@ Hemos completado exitosamente la creación del sistema web premium para el regis
 
 5. **Informe Financiero y de Impuestos**
    - Módulo de informes que agrupa la facturación por Trimestres del año empleando métodos potentes nativos (ej: `whereBetween` y librerías temporales como `Carbon`).
-   - Muestra de un vistazo el volumen total, el IVA y Retención (IRPF) para facilitar el papeleo con la Agencia Tributaria.
+   - Muestra el volumen total (Base), el IVA y la Retención (IRPF) para facilitar el papeleo con la Agencia Tributaria.
+   - Incluye interactividad de tabla detallada por trimestre para revisión de desglose.
 
 6. **Navegación Intuitiva**
-   - Todos los accesos a estos cuatro nuevos módulos figuran ya en el Panel Lateral (Sidebar) de la plantilla "app" nativa proporcionada por Flux.
+   - Todos los accesos a estos nuevos módulos figuran ya en el Panel Lateral (Sidebar).
+
+7. **Exportación a PDF**
+   - Impresión física de Facturas e Informes Fiscales (vía librería `dompdf`), con formato factura A4.
+
+8. **Configuración Dinámica de Emisor**
+   - Panel de "Configuración Emisor" inyectado en Base de Datos (UUID).
+   - Permite alterar el Nombre y Datos de Facturación de la empresa auto-rellenándolos dinámicamente en los PDF al instante.
 
 ## Verificación Local
 
