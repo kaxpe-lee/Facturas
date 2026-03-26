@@ -13,6 +13,9 @@ class PropertyForm extends Form
     #[Validate('required|min:2')]
     public $name = '';
 
+    #[Validate('nullable|string|max:400')]
+    public $description = '';
+
     #[Validate('nullable|string')]
     public $address = '';
 
@@ -35,6 +38,7 @@ class PropertyForm extends Form
     {
         $this->property = $property;
         $this->name = $property->name;
+        $this->description = $property->description;
         $this->address = $property->address;
         $this->monthly_rent = $property->monthly_rent;
         $this->default_iva_percentage = $property->default_iva_percentage;
@@ -45,7 +49,7 @@ class PropertyForm extends Form
 
     public function resetForm() {
         $this->property = null;
-        $this->reset(['name', 'address', 'monthly_rent', 'default_iva_percentage', 'default_retention_percentage', 'is_active', 'current_tenant_id']);
+        $this->reset(['name', 'description', 'address', 'monthly_rent', 'default_iva_percentage', 'default_retention_percentage', 'is_active', 'current_tenant_id']);
         $this->monthly_rent = 0;
         $this->default_iva_percentage = 0;
         $this->default_retention_percentage = 0;
@@ -57,7 +61,7 @@ class PropertyForm extends Form
         $this->validate();
 
         $data = $this->only([
-            'name', 'address', 'monthly_rent',
+            'name', 'description', 'address', 'monthly_rent',
             'default_iva_percentage', 'default_retention_percentage',
             'is_active', 'current_tenant_id'
         ]);

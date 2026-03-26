@@ -80,6 +80,7 @@
             
             <div class="space-y-4 mt-6">
                 <flux:input wire:model="form.name" label="Nombre corto" placeholder="Ej. Piso Centro 3A" required autocomplete="off"/>
+                <flux:textarea wire:model="form.description" label="Descripción Comercial (Factura)" placeholder="Ej. Local Comercial 200m2 en Planta Baja (Opcional, sobrescribe el nombre en la factura)" />
                 <flux:textarea wire:model="form.address" label="Dirección Completa" />
                 
                 <div class="grid grid-cols-2 gap-4">

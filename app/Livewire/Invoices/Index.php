@@ -35,7 +35,7 @@ class Index extends Component
         
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, 'Factura-' . $invoice->invoice_number . '.pdf');
+        }, 'Factura-' . str_replace('/', '-', $invoice->invoice_number) . '.pdf');
     }
 
     public function render()

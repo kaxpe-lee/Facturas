@@ -66,7 +66,7 @@ class Create extends Component
     public function addItem()
     {
         $this->items[] = [
-            'description' => '',
+            'description' => 'Alquiler',
             'quantity' => 1,
             'unit_price' => 0
         ];
@@ -124,7 +124,7 @@ class Create extends Component
 
         $year = Carbon::parse($this->issue_date)->year;
         $count = Invoice::whereYear('issue_date', $year)->count() + 1;
-        $number = $year . '-' . str_pad($count, 4, '0', STR_PAD_LEFT);
+        $number = $year . '/' . $count;
 
         $invoice = Invoice::create([
             'invoice_number' => $number,

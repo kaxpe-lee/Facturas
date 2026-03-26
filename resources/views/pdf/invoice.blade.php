@@ -10,7 +10,7 @@
         .header table { width: 100%; border-collapse: collapse; }
         .header td { vertical-align: top; }
         .header .title { font-size: 36px; font-weight: bold; color: #333; }
-        .header .details { text-align: right; line-height: 1.6; }
+        .header .details { text-align: left; line-height: 1.6; width: 33.33%; }
         
         .addresses { width: 100%; margin-bottom: 40px; }
         .addresses table { width: 100%; border-collapse: collapse; }
@@ -60,7 +60,7 @@
                         <strong>Fecha Vencimiento:</strong> {{ $invoice->due_date->format('d/m/Y') }}<br>
                         @endif
                         @if($invoice->property)
-                        <strong>Inmueble:</strong> {{ $invoice->property->name }}<br>
+                        <strong>Para:</strong> {{ $invoice->property->description ?: $invoice->property->name }}<br>
                         @endif
                     </td>
                 </tr>
@@ -74,15 +74,14 @@
                         <h3>Emisor</h3>
                         <strong>{{ \App\Models\Setting::where('key', 'company_name')->value('value') ?: config('app.name') }}</strong><br>
                         {!! nl2br(e(\App\Models\Setting::where('key', 'company_address')->value('value') ?: 'Dirección Fiscal del Emisor')) !!}<br>
-                        NIF: {{ \App\Models\Setting::where('key', 'company_nif')->value('value') ?: 'B00000000' }}<br>
-                        {{ \App\Models\Setting::where('key', 'company_email')->value('value') ?: 'info@tudominio.com' }}<br>
-                        {{ \App\Models\Setting::where('key', 'company_phone')->value('value') }}
+                        {{ \App\Models\Setting::where('key', 'company_nif')->value('value') ?: 'B00000000' }}<br>
+
                     </td>
                     <td>
                         <h3>Facturar a</h3>
                         <strong>{{ $invoice->client->name }}</strong><br>
                         @if($invoice->client->document_number)
-                            NIF/DNI: {{ $invoice->client->document_number }}<br>
+                            {{ $invoice->client->document_number }}<br>
                         @endif
                         @if($invoice->client->email)
                             Email: {{ $invoice->client->email }}<br>
@@ -91,7 +90,7 @@
                             Tel: {{ $invoice->client->phone }}<br>
                         @endif
                         @if($invoice->client->billing_address)
-                            <br>{{ nl2br(e($invoice->client->billing_address)) }}
+                            <br>{!! nl2br(e($invoice->client->billing_address)) !!}
                         @endif
                     </td>
                 </tr>
@@ -102,17 +101,15 @@
             <thead>
                 <tr>
                     <th>Concepto / Descripción</th>
-                    <th class="center" style="width: 10%;">Cant.</th>
-                    <th class="right" style="width: 15%;">Precio Ud.</th>
-                    <th class="right" style="width: 20%;">Total</th>
+                    <th class="center" style="width: 30%;">Mes</th>
+                    <th class="right" style="width: 25%;">Total</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($invoice->items as $item)
                 <tr>
-                    <td>{{ $item->description }}</td>
-                    <td class="center">{{ $item->quantity }}</td>
-                    <td class="right">€{{ number_format($item->unit_price, 2) }}</td>
+                    <td>{{ $item->description ?: 'Alquiler' }}</td>
+                    <td class="center capitalize">{{ $invoice->issue_date->locale('es')->translatedFormat('F Y') }}</td>
                     <td class="right">€{{ number_format($item->total, 2) }}</td>
                 </tr>
                 @endforeach
