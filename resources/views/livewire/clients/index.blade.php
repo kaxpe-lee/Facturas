@@ -21,7 +21,7 @@
         </flux:table.columns>
 
         <flux:table.rows>
-            @forelse($clients as $client)
+            @forelse($clients as $client)  
             <flux:table.row>
                 <flux:table.cell class="font-medium">{{ $client->name }}</flux:table.cell>
                 <flux:table.cell class="text-zinc-500">{{ $client->document_number ?: '-' }}</flux:table.cell>

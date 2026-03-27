@@ -30,3 +30,13 @@
   - [x] Crear modelo `Setting`
   - [x] Página Livewire del perfil fiscal de empresa
   - [x] Integrar datos de BD en los PDFs fiscales
+- [x] Integración de IA (Laravel AI SDK)
+  - [x] Instalar paquete `laravel/ai`
+  - [x] Configurar proveedor de IA (.env)
+  - [x] Implementar Creador Mágico de Alquileres Asistido
+- [x] Envío de Facturas por Correo
+  - [x] Crear la clase Mailable `InvoiceMail`
+  - [x] Diseñar la plantilla del correo (HTML) usando Markdown o Blade
+  - [x] Generar el PDF interno y adjuntarlo al vuelo usando `attachData`
+  - [x] Añadir botón "Enviar Correo" en la interfaz de Facturas
+  - [ ] Implementar modal de previsualización antes del envío definitivo

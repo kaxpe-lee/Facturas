@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e2b04a34c0badfa030627d91ba57244",
+    "content-hash": "0b2512850db01cef6ca39be03fa077b0",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1392,16 +1392,16 @@
         },
         {
             "name": "laravel/ai",
-            "version": "v0.3.2",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/ai.git",
-                "reference": "dfdf853427eb9fb8d763f8d9e2ed62cfcc03fb9c"
+                "reference": "7a4ac9fac32e652ebd2f2cc9d44216eee543c5da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/ai/zipball/dfdf853427eb9fb8d763f8d9e2ed62cfcc03fb9c",
-                "reference": "dfdf853427eb9fb8d763f8d9e2ed62cfcc03fb9c",
+                "url": "https://api.github.com/repos/laravel/ai/zipball/7a4ac9fac32e652ebd2f2cc9d44216eee543c5da",
+                "reference": "7a4ac9fac32e652ebd2f2cc9d44216eee543c5da",
                 "shasum": ""
             },
             "require": {
@@ -1454,7 +1454,7 @@
                 "issues": "https://github.com/laravel/ai/issues",
                 "source": "https://github.com/laravel/ai"
             },
-            "time": "2026-03-18T14:44:36+00:00"
+            "time": "2026-03-26T16:51:27+00:00"
         },
         {
             "name": "laravel/fortify",
@@ -10614,5 +10614,5 @@
         "php": "^8.3"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }

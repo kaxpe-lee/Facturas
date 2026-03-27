@@ -9,6 +9,37 @@
         <flux:subheading>Rellena los detalles para emitir una nueva factura.</flux:subheading>
     </div>
 
+    <div class="mb-6">
+        <flux:card class="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-sm">
+            <div class="flex items-start gap-4">
+                <div class="mt-1 p-2 bg-blue-100 text-blue-600 rounded-full shadow-sm">
+                    <flux:icon.sparkles variant="solid" class="w-5 h-5" />
+                </div>
+                <div class="flex-1 w-full">
+                    <flux:heading size="md" class="text-blue-900 font-semibold mb-2">Creador Mágico con IA (Google Gemini)</flux:heading>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="flex-1">
+                            <flux:input wire:model.live="ai_prompt" placeholder="Ej: Factura de alquiler del piso del centro de este mes..." wire:keydown.enter.prevent="generateFromAi" />
+                        </div>
+                        <flux:button variant="primary" wire:click="generateFromAi">
+                            <span wire:loading.remove wire:target="generateFromAi">✨ Auto-Rellenar</span>
+                            <span wire:loading wire:target="generateFromAi">Pensando...</span>
+                        </flux:button>
+                    </div>
+                    
+                    @if($ai_response)
+                        <div class="mt-4 p-3 bg-white rounded-xl border border-blue-100/50 text-sm text-blue-900 shadow-sm flex items-start gap-3 transition-all">
+                            <div class="bg-blue-500 rounded-full p-1.5 flex-shrink-0 mt-0.5">
+                                <flux:icon.chat-bubble-oval-left-ellipsis variant="micro" class="w-4 h-4 text-white" />
+                            </div>
+                            <span class="leading-relaxed"><strong>🤖 Gemini:</strong> {{ $ai_response }}</span>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </flux:card>
+    </div>
+
     <form wire:submit="save">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
