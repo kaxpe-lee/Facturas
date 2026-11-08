@@ -32,10 +32,17 @@ class Taxes extends Component
         $start = Carbon::create($this->year, $startMonth, 1)->startOfMonth();
         $end = Carbon::create($this->year, $endMonth, 1)->endOfMonth();
 
-        $invoices = Invoice::with(['client', 'property'])
-            ->whereBetween('issue_date', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+        $baseQuery = Invoice::with(['client', 'property'])
+            ->whereBetween('issue_date', [$start->format('Y-m-d'), $end->format('Y-m-d')]);
+
+        $invoices = (clone $baseQuery)
+            ->taxable()
             ->orderBy('issue_date', 'asc')
             ->get();
+
+        $excludedCount = (clone $baseQuery)
+            ->where('include_in_taxes', false)
+            ->count();
 
         return [
             'base' => $invoices->sum('subtotal'),
@@ -43,6 +50,7 @@ class Taxes extends Component
             'retention' => $invoices->sum('retention_amount'),
             'total' => $invoices->sum('total_amount'),
             'count' => $invoices->count(),
+            'excluded_count' => $excludedCount,
             'invoices' => $invoices
         ];
     }

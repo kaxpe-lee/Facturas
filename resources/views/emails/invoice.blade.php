@@ -13,7 +13,7 @@
         <h2 style="margin-top: 0; font-size: 18px; color: #1f2937;">Hola {{ $invoice->client->name }},</h2>
         
         @if($body)
-            <p style="white-space: pre-wrap;">{!! nl2br(e($body)) !!}</p>
+            <p style="margin-top: 12px;">{!! nl2br(e($body)) !!}</p>
         @else
             <p>Adjuntamos la factura <strong>{{ $invoice->invoice_number }}</strong> correspondiente a su último periodo, por un importe total de <strong>€{{ number_format($invoice->total_amount, 2) }}</strong>.</p>
             <p>Por favor, revisa el documento PDF adjunto en este mensaje con todos los conceptos desglosados.</p>

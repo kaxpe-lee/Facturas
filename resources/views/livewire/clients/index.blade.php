@@ -8,7 +8,7 @@
     </div>
     
     <div class="mb-4">
-        <flux:input wire:model.live.debounce.300ms="search" placeholder="Buscar por nombre o NIF..." icon="magnifying-glass" class="max-w-sm" />
+        <flux:input wire:model.live.debounce.300ms="search" placeholder="Buscar por nombre, NIF o email..." icon="magnifying-glass" class="max-w-sm" />
     </div>
 
     <flux:table>
@@ -16,13 +16,14 @@
             <flux:table.column>Nombre</flux:table.column>
             <flux:table.column>NIF/DNI</flux:table.column>
             <flux:table.column>Contacto</flux:table.column>
-            <flux:table.column>Tipo</flux:table.column>
+            <flux:table.column>Inmuebles Alquilados</flux:table.column>
+            <flux:table.column>Documentos</flux:table.column>
             <flux:table.column>Acciones</flux:table.column>
         </flux:table.columns>
 
         <flux:table.rows>
             @forelse($clients as $client)  
-            <flux:table.row>
+            <flux:table.row wire:key="client-{{ $client->id }}">
                 <flux:table.cell class="font-medium">{{ $client->name }}</flux:table.cell>
                 <flux:table.cell class="text-zinc-500">{{ $client->document_number ?: '-' }}</flux:table.cell>
                 <flux:table.cell>
@@ -30,11 +31,18 @@
                     <div class="text-sm text-zinc-500">{{ $client->phone ?: '-' }}</div>
                 </flux:table.cell>
                 <flux:table.cell>
-                    @if($client->type === 'tenant')
-                        <flux:badge color="blue">Inquilino</flux:badge>
+                    @if($client->tenantedProperties->isNotEmpty())
+                        <div class="flex flex-wrap gap-1">
+                            @foreach($client->tenantedProperties as $prop)
+                                <flux:badge color="blue" size="sm">{{ $prop->name }}</flux:badge>
+                            @endforeach
+                        </div>
                     @else
-                        <flux:badge color="zinc">Puntual</flux:badge>
+                        <span class="text-zinc-400 text-sm">-</span>
                     @endif
+                </flux:table.cell>
+                <flux:table.cell class="text-zinc-500">
+                    {{ $client->invoices_count }}
                 </flux:table.cell>
                 <flux:table.cell>
                     <flux:dropdown>
@@ -51,7 +59,7 @@
             </flux:table.row>
             @empty
             <flux:table.row>
-                <flux:table.cell colspan="5" class="py-10 text-center text-zinc-500">
+                <flux:table.cell colspan="6" class="py-10 text-center text-zinc-500">
                     No se han encontrado clientes con esos criterios.
                 </flux:table.cell>
             </flux:table.row>
@@ -78,11 +86,6 @@
                 </div>
                 
                 <flux:textarea wire:model="form.billing_address" label="Dirección de Facturación" />
-                
-                <flux:select wire:model="form.type" label="Tipo de Cliente" required>
-                    <option value="tenant">Inquilino (Recurrente)</option>
-                    <option value="occasional">Cliente Puntual</option>
-                </flux:select>
             </div>
 
             <div class="flex justify-end gap-2 mt-8">

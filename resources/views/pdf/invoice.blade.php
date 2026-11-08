@@ -55,10 +55,7 @@
                         @endif
                     </td>
                     <td class="details">
-                        <strong>Fecha:</strong> {{ $invoice->issue_date->format('d/m/Y') }}<br>
-                        @if($invoice->due_date)
-                        <strong>Fecha Vencimiento:</strong> {{ $invoice->due_date->format('d/m/Y') }}<br>
-                        @endif
+                        <strong>Fecha factura:</strong> {{ $invoice->issue_date->format('d/m/Y') }}<br>
                         @if($invoice->property)
                         <strong>Para:</strong> {{ $invoice->property->description ?: $invoice->property->name }}<br>
                         @endif

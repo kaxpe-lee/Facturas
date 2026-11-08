@@ -28,6 +28,9 @@
                 <div class="flex items-center gap-3">
                     <flux:heading size="lg">Resumen</flux:heading>
                     <flux:badge color="zinc">{{ $this->reportData['count'] }} facturas computadas</flux:badge>
+                    @if($this->reportData['excluded_count'] > 0)
+                        <flux:badge color="amber">{{ $this->reportData['excluded_count'] }} excluidas</flux:badge>
+                    @endif
                 </div>
                 <flux:button variant="primary" size="sm" icon="arrow-down-tray" wire:click="exportPdf" wire:loading.attr="disabled">Exportar PDF</flux:button>
             </div>
@@ -66,8 +69,8 @@
         <flux:table>
             <flux:table.columns>
                 <flux:table.column>Número</flux:table.column>
-                <flux:table.column>Fecha Emisión</flux:table.column>
-                <flux:table.column>Cliente</flux:table.column>
+                <flux:table.column>Fecha factura</flux:table.column>
+                <flux:table.column>Cliente / Inmueble</flux:table.column>
                 <flux:table.column>Base Imp.</flux:table.column>
                 <flux:table.column>IVA</flux:table.column>
                 <flux:table.column>IRPF</flux:table.column>
@@ -76,12 +79,17 @@
 
             <flux:table.rows>
                 @forelse($this->reportData['invoices'] as $invoice)
-                <flux:table.row>
+                <flux:table.row wire:key="tax-invoice-{{ $invoice->id }}">
                     <flux:table.cell class="font-medium whitespace-nowrap">{{ $invoice->invoice_number }}</flux:table.cell>
                     <flux:table.cell>{{ $invoice->issue_date->format('d/m/Y') }}</flux:table.cell>
                     <flux:table.cell>
                         <div class="font-medium">{{ $invoice->client->name }}</div>
-                        <div class="text-xs text-zinc-500">{{ $invoice->client->document_number }}</div>
+                        <div class="text-xs text-zinc-500">
+                            {{ $invoice->client->document_number ?: 'Sin NIF' }}
+                            @if($invoice->property)
+                                · {{ $invoice->property->name }}
+                            @endif
+                        </div>
                     </flux:table.cell>
                     <flux:table.cell>€{{ number_format($invoice->subtotal, 2) }}</flux:table.cell>
                     <flux:table.cell class="text-blue-600">€{{ number_format($invoice->iva_amount, 2) }}</flux:table.cell>

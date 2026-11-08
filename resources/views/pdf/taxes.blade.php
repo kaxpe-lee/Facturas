@@ -39,7 +39,10 @@
                     </td>
                     <td class="details">
                         <strong>EMITIDO EL:</strong> {{ \Carbon\Carbon::now()->format('d/m/Y') }}<br>
-                        <strong>TOTAL FACTURAS:</strong> {{ $data['count'] }}
+                        <strong>FACTURAS COMPUTADAS:</strong> {{ $data['count'] }}
+                        @if(!empty($data['excluded_count']))
+                            <br><span style="color: #777; font-size: 10px;">(Excluidas de impuestos: {{ $data['excluded_count'] }})</span>
+                        @endif
                     </td>
                 </tr>
             </table>
@@ -67,7 +70,7 @@
             <thead>
                 <tr>
                     <th style="width: 10%;">Número</th>
-                    <th class="center" style="width: 10%;">Fecha Emisión</th>
+                    <th class="center" style="width: 10%;">Fecha factura</th>
                     <th style="width: 30%;">Cliente</th>
                     <th class="right" style="width: 12%;">Base Imp.</th>
                     <th class="right" style="width: 12%;">IVA</th>
@@ -82,7 +85,12 @@
                     <td class="center">{{ $invoice->issue_date->format('d/m/Y') }}</td>
                     <td>
                         {{ $invoice->client->name }}<br>
-                        <span style="font-size: 9px; color: #777;">{{ $invoice->client->document_number }}</span>
+                        <span style="font-size: 9px; color: #777;">
+                            {{ $invoice->client->document_number }}
+                            @if($invoice->property)
+                                - {{ $invoice->property->name }}
+                            @endif
+                        </span>
                     </td>
                     <td class="right">€{{ number_format($invoice->subtotal, 2) }}</td>
                     <td class="right" style="color: #0056b3;">€{{ number_format($invoice->iva_amount, 2) }}</td>

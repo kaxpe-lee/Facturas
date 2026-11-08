@@ -20,16 +20,17 @@ class InvoiceMail extends Mailable
     public $invoice;
     public $settings;
     public $body;
+    public $customSubject;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Invoice $invoice, $body = null)
+    public function __construct(Invoice $invoice, ?string $body = null, ?string $customSubject = null)
     {
-        $this->invoice = $invoice;
+        $this->invoice = $invoice->loadMissing(['client', 'property', 'items']);
         $this->body = $body;
-        // Carga los ajustes predeterminados para pasarlos directo a la vista del PDF PDF
         $this->settings = Setting::all()->pluck('value', 'key')->toArray();
+        $this->customSubject = $customSubject;
     }
 
     /**
@@ -37,8 +38,10 @@ class InvoiceMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $defaultSubject = 'Factura ' . str_replace('/', '-', $this->invoice->invoice_number) . ' - ' . ($this->settings['company_name'] ?? config('app.name'));
+
         return new Envelope(
-            subject: 'Factura ' . str_replace('/', '-', $this->invoice->invoice_number) . ' - ' . ($this->settings['company_name'] ?? 'Tu Empresa'),
+            subject: $this->customSubject ?: $defaultSubject,
         );
     }
 
