@@ -9,7 +9,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', \App\Livewire\Dashboard::class)->name('dashboard');
     Route::get('/clients', \App\Livewire\Clients\Index::class)->name('clients');
     Route::get('/properties', \App\Livewire\Properties\Index::class)->name('properties');
     Route::get('/invoices', \App\Livewire\Invoices\Index::class)->name('invoices');
