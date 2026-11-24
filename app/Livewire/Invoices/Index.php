@@ -25,6 +25,7 @@ class Index extends Component
     public InvoiceForm $form;
     public string $search = '';
 
+    public ?string $editingInvoiceId = null;
     public $selectedInvoiceId;
     public $emailTo = '';
     public $emailSubject = '';
@@ -43,7 +44,16 @@ class Index extends Component
 
     public function create(): void
     {
+        $this->editingInvoiceId = null;
         $this->form->resetForm();
+    }
+
+    public function edit(Invoice $invoice): void
+    {
+        $this->editingInvoiceId = $invoice->id;
+        $this->form->fillFromInvoice($invoice);
+
+        Flux::modal('invoice-form')->show();
     }
 
     public function updatedFormPropertyId($value): void
@@ -59,12 +69,19 @@ class Index extends Component
 
     public function save(): void
     {
-        $this->form->store();
+        if ($this->editingInvoiceId) {
+            $this->form->update(Invoice::findOrFail($this->editingInvoiceId));
+            $this->editingInvoiceId = null;
+            $message = 'Factura actualizada correctamente.';
+        } else {
+            $this->form->store();
+            $message = 'Factura creada correctamente.';
+        }
 
         Flux::modal('invoice-form')->close();
         $this->dispatch('close-modal-invoice-form');
 
-        Flux::toast('Factura creada correctamente.', variant: 'success');
+        Flux::toast($message, variant: 'success');
     }
 
     public function delete(Invoice $invoice): void
@@ -159,7 +176,10 @@ class Index extends Component
                 })
                 ->orderBy('issue_date', 'desc')
                 ->paginate(10),
-            'properties' => Property::with('tenant')->active()->orderBy('name')->get(),
+            'properties' => Property::with('tenant')
+                ->where(fn (Builder $q) => $q->where('is_active', true)
+                    ->when($this->editingInvoiceId, fn (Builder $q) => $q->orWhereHas('invoices', fn (Builder $i) => $i->whereKey($this->editingInvoiceId))))
+                ->orderBy('name')->get(),
         ]);
     }
 }

@@ -53,6 +53,7 @@
                         <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" />
                         
                         <flux:menu>
+                            <flux:menu.item icon="pencil-square" wire:click="edit('{{ $invoice->id }}')">Editar</flux:menu.item>
                             <flux:menu.item icon="arrow-down-tray" wire:click="downloadPdf('{{ $invoice->id }}')">Descargar PDF</flux:menu.item>
                             <flux:menu.item icon="envelope" wire:click="sendEmail('{{ $invoice->id }}')">Enviar por Email</flux:menu.item>
                             @if($invoice->status !== 'paid')
@@ -80,7 +81,7 @@
     <!-- Modal de Nueva Factura -->
     <flux:modal name="invoice-form" class="md:min-w-[520px]" x-on:close-modal-invoice-form.window="$el.close()">
         <form wire:submit="save">
-            <flux:heading size="lg">Nueva Factura</flux:heading>
+            <flux:heading size="lg">{{ $editingInvoiceId ? 'Editar Factura' : 'Nueva Factura' }}</flux:heading>
 
             <div class="space-y-4 mt-5">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -156,7 +157,7 @@
                 <flux:modal.close>
                     <flux:button variant="ghost">Cancelar</flux:button>
                 </flux:modal.close>
-                <flux:button type="submit" variant="primary" :disabled="!$form->property_id || !$form->client_id">Guardar Factura</flux:button>
+                <flux:button type="submit" variant="primary" :disabled="!$form->property_id || !$form->client_id">{{ $editingInvoiceId ? 'Guardar Cambios' : 'Guardar Factura' }}</flux:button>
             </div>
         </form>
     </flux:modal>

@@ -58,7 +58,13 @@ class Invoice extends Model
         $date = $issueDate ? Carbon::parse($issueDate) : Carbon::now();
         $year = $date->year;
 
-        $count = static::whereYear('issue_date', $year)->count() + 1;
-        return $year . '/' . $count;
+        // Se basa en el mayor número ya usado con ese prefijo (no en el recuento),
+        // así borrar o editar facturas nunca provoca números duplicados.
+        $max = static::where('invoice_number', 'like', $year . '/%')
+            ->pluck('invoice_number')
+            ->map(fn (string $n) => (int) substr($n, strlen($year . '/')))
+            ->max() ?? 0;
+
+        return $year . '/' . ($max + 1);
     }
 }
