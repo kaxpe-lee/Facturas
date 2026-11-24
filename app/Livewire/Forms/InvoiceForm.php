@@ -85,8 +85,8 @@ class InvoiceForm extends Form
         $this->retention_percentage = (float) $prop->default_retention_percentage;
         $this->include_in_taxes = (bool) ($prop->include_in_taxes ?? true);
 
-        $date = $this->issue_date ? Carbon::parse($this->issue_date) : Carbon::now();
-        $this->description = 'Alquiler ' . $prop->name . ' - ' . $date->translatedFormat('F Y');
+        // El mes y año ya se muestran en la columna "Mes" del PDF, no se repiten en el concepto.
+        $this->description = 'Alquiler ' . $prop->name;
 
         if (!$prop->current_tenant_id) {
             $this->addError('property_id', 'Este inmueble no tiene un cliente asociado.');
